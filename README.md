@@ -1,5 +1,5 @@
 # nutho313 QSBT1 ControlMapper
-
+Made with love by  🌐 [www.nutho313.ch](https://www.nutho313.ch)
 > SimHub plugin for the **Qubic System QS-BT1** seat belt tensioner.  
 > Control and monitor all tune parameters directly from SimHub — no browser required.
 
