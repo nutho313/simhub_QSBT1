@@ -157,6 +157,15 @@ namespace QSBT1Plugin
             this.AddAction("PreImpact_Duration_Up",           (a, b) => Adjust("preimpact", "duration", +1));
             this.AddAction("PreImpact_Duration_Down",         (a, b) => Adjust("preimpact", "duration", -1));
             this.AddAction("PreImpact_Toggle",                (a, b) => ToggleEnabled("preimpact"));
+            // Violent Movement Suppressor (Motion Primary | SFX)
+            this.AttachDelegate("VMS_Threshold",              () => Math.Round(Settings.VMS_Threshold, 0));
+            this.AttachDelegate("VMS_Duration",               () => Math.Round(Settings.VMS_Duration, 2));
+            this.AttachDelegate("VMS_Enabled",                () => Settings.VMS_Enabled);
+            this.AddAction("VMS_Threshold_Up",                (a, b) => Adjust("vms", "threshold", +1));
+            this.AddAction("VMS_Threshold_Down",              (a, b) => Adjust("vms", "threshold", -1));
+            this.AddAction("VMS_Duration_Up",                 (a, b) => Adjust("vms", "duration", +1));
+            this.AddAction("VMS_Duration_Down",               (a, b) => Adjust("vms", "duration", -1));
+            this.AddAction("VMS_Toggle",                      (a, b) => ToggleEnabled("vms"));
         }
 
         public void DataUpdate(PluginManager pluginManager, ref GameData data) { }
@@ -257,6 +266,14 @@ namespace QSBT1Plugin
                     }
                     SendTune("Pre-Impact Protection", pid, tg, Settings.PreImpact_Long, Settings.PreImpact_Lateral, Settings.PreImpact_Duration);
                     break;
+                case "vms":
+                    switch (param)
+                    {
+                        case "threshold": Settings.VMS_Threshold = Clamp(Round2(Settings.VMS_Threshold + dir * 1.0), 4, 100); break;
+                        case "duration":  Settings.VMS_Duration  = Clamp(Round2(Settings.VMS_Duration  + dir * 1.0), 1, 7);   break;
+                    }
+                    SendTune("Violent Movement Suppressor", pid, 2, Settings.VMS_Threshold, Settings.VMS_Duration, 0);
+                    break;
             }
             this.SaveCommonSettings("QSBT1PluginMain.QSBT1Settings", Settings);
         }
@@ -294,6 +311,7 @@ namespace QSBT1Plugin
                 case "sideslip":      Settings.SideSlip_Enabled      = !Settings.SideSlip_Enabled;      SendTuneEnabled("Side Slip",             pid, tg, Settings.SideSlip_Enabled);      break;
                 case "roadharshness": Settings.RoadHarshness_Enabled = !Settings.RoadHarshness_Enabled; SendTuneEnabled("Road Harshness",        pid, tg, Settings.RoadHarshness_Enabled); break;
                 case "preimpact":     Settings.PreImpact_Enabled     = !Settings.PreImpact_Enabled;     SendTuneEnabled("Pre-Impact Protection", pid, tg, Settings.PreImpact_Enabled);     break;
+                case "vms":           Settings.VMS_Enabled           = !Settings.VMS_Enabled;           SendTuneEnabled("Violent Movement Suppressor", pid, 2, Settings.VMS_Enabled);     break;
             }
             this.SaveCommonSettings("QSBT1PluginMain.QSBT1Settings", Settings);
         }
@@ -453,6 +471,10 @@ namespace QSBT1Plugin
                 Settings.PreImpact_Lateral  = Round2(GetTuneValue(json, "Pre-Impact Protection", 1));
                 Settings.PreImpact_Duration = Round2(GetTuneValue(json, "Pre-Impact Protection", 2));
                 Settings.PreImpact_Enabled  = GetTuneEnabled(json, "Pre-Impact Protection");
+                // Violent Movement Suppressor (Motion Primary | SFX — tuneGroup 2)
+                Settings.VMS_Threshold = Round2(GetTuneValue(json, "Violent Movement Suppressor", 0));
+                Settings.VMS_Duration  = Round2(GetTuneValue(json, "Violent Movement Suppressor", 1));
+                Settings.VMS_Enabled   = GetTuneEnabled(json, "Violent Movement Suppressor");
 
                 SimHub.Logging.Current.Info("[QS-BT1] Read from device: B_Gain=" + Settings.Braking_Gain + " C_Gain=" + Settings.Centrifugal_Gain);
                 Settings.NotifyAll();

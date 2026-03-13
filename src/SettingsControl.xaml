@@ -420,17 +420,25 @@
                     <Border Grid.Row="0" Grid.ColumnSpan="4" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
                     <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
                     <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Threshold"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Duration"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Duration (s)"/>
                     <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="On"/>
                     <Border Grid.Row="1" Grid.ColumnSpan="4" Background="#222"/>
                     <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Violent Mvt. Suppressor"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TblVal}" Text="50" HorizontalAlignment="Center"/>
-                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource TblVal}" Text="3 s" HorizontalAlignment="Center"/>
-                    <CheckBox  Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True" IsEnabled="False"/>
+                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vms|threshold|-1" Click="Nudge_Click"/>
+                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding VMS_Threshold, Mode=OneWay, StringFormat=N0}"/>
+                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vms|threshold|+1" Click="Nudge_Click"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vms|duration|-1" Click="Nudge_Click"/>
+                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding VMS_Duration, Mode=OneWay, StringFormat=N2}"/>
+                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vms|duration|+1" Click="Nudge_Click"/>
+                    </StackPanel>
+                    <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                              IsChecked="{Binding VMS_Enabled, Mode=TwoWay}"
+                              Tag="vms_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
                 </Grid>
             </Border>
-            <TextBlock Foreground="#555" FontSize="10" Margin="0,0,0,4"
-                       Text="Motion Primary | SFX values are read-only in this version."/>
 
             <Separator Background="#444" Margin="0,12,0,0"/>
 

@@ -93,7 +93,8 @@ namespace QSBT1Plugin
                 case "verticalg_enabled":     _plugin.Settings.VerticalG_Enabled     = en; _plugin.SendTuneEnabled("Vertical G-Force",       pid, tg, en); break;
                 case "sideslip_enabled":      _plugin.Settings.SideSlip_Enabled      = en; _plugin.SendTuneEnabled("Side Slip",              pid, tg, en); break;
                 case "roadharshness_enabled": _plugin.Settings.RoadHarshness_Enabled = en; _plugin.SendTuneEnabled("Road Harshness",         pid, tg, en); break;
-                case "preimpact_enabled":     _plugin.Settings.PreImpact_Enabled     = en; _plugin.SendTuneEnabled("Pre-Impact Protection",  pid, tg, en); break;
+                case "preimpact_enabled":     _plugin.Settings.PreImpact_Enabled     = en; _plugin.SendTuneEnabled("Pre-Impact Protection",      pid, tg, en); break;
+                case "vms_enabled":           _plugin.Settings.VMS_Enabled           = en; _plugin.SendTuneEnabled("Violent Movement Suppressor", pid, 2,  en); break;
             }
         }
 

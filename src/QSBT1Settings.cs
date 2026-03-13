@@ -37,6 +37,7 @@ namespace QSBT1Plugin
             Notify(nameof(SideSlip_Threshold));   Notify(nameof(SideSlip_Frequency));        Notify(nameof(SideSlip_Intensity));       Notify(nameof(SideSlip_Enabled));
             Notify(nameof(RoadHarshness_Gain));   Notify(nameof(RoadHarshness_Sharpness));   Notify(nameof(RoadHarshness_Enabled));
             Notify(nameof(PreImpact_Long));       Notify(nameof(PreImpact_Lateral));         Notify(nameof(PreImpact_Duration));       Notify(nameof(PreImpact_Enabled));
+            Notify(nameof(VMS_Threshold));        Notify(nameof(VMS_Duration));              Notify(nameof(VMS_Enabled));
         }
 
         // ── Network ──────────────────────────────────────────────────────────
@@ -147,5 +148,12 @@ namespace QSBT1Plugin
         public double PreImpact_Duration { get => _preImpact_Duration; set { _preImpact_Duration = value; Notify(nameof(PreImpact_Duration)); } }
         private bool _preImpact_Enabled = false;
         public bool PreImpact_Enabled { get => _preImpact_Enabled; set { _preImpact_Enabled = value; Notify(nameof(PreImpact_Enabled)); } }
+        // ── Motion Primary | SFX — Violent Movement Suppressor ───────────────
+        private double _vms_Threshold = 50.0;
+        public double VMS_Threshold { get => _vms_Threshold; set { _vms_Threshold = value; Notify(nameof(VMS_Threshold)); } }
+        private double _vms_Duration = 3.0;
+        public double VMS_Duration { get => _vms_Duration; set { _vms_Duration = value; Notify(nameof(VMS_Duration)); } }
+        private bool _vms_Enabled = true;
+        public bool VMS_Enabled { get => _vms_Enabled; set { _vms_Enabled = value; Notify(nameof(VMS_Enabled)); } }
     }
 }
