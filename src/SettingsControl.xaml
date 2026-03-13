@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" Width="900">
+             mc:Ignorable="d" Width="1232">
     <UserControl.Resources>
         <Style x:Key="SectionHeader" TargetType="TextBlock">
             <Setter Property="FontSize"   Value="13"/>
@@ -71,28 +71,52 @@
         <StackPanel Margin="24,16">
 
             <!-- ══ HEADER ══════════════════════════════════════════════════════ -->
-            <!-- Logo + Title side by side -->
             <Grid Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Image x:Name="ImgLogo" Grid.Column="0" MaxHeight="80" MaxWidth="80"
-                       Margin="0,0,16,0" VerticalAlignment="Center" Stretch="Uniform"/>
+
+                <!-- Logo x1.8 -->
+                <Image x:Name="ImgLogo" Grid.Column="0" MaxHeight="144" MaxWidth="144"
+                       Margin="0,0,20,0" VerticalAlignment="Center" Stretch="Uniform"/>
+
+                <!-- Title + subtitle + status -->
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                     <TextBlock Text="nutho313 QSBT1_ControlMapper"
                                FontSize="18" FontWeight="Bold" Foreground="White"/>
                     <TextBlock Text="Qubic System QS-BT1 — SimHub Control Mapper Plugin"
                                Foreground="#999" FontSize="11" Margin="0,3,0,0"/>
-                    <!-- Status line (4) right of title -->
-                    <TextBlock x:Name="TxtStatus" Foreground="#88BB55" FontSize="11" Margin="0,4,0,0"/>
+
+                </StackPanel>
+
+                <!-- Right column: status + website + ko-fi -->
+                <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="16,0,0,0">
+                    <TextBlock x:Name="TxtStatus" Foreground="#88BB55" FontSize="11"
+                               HorizontalAlignment="Right" Margin="0,0,0,8"/>
+                    <TextBlock Foreground="#4A9EE8" FontSize="12" Cursor="Hand"
+                               TextDecorations="Underline" HorizontalAlignment="Right"
+                               MouseLeftButtonUp="Website_Click"
+                               Text="www.nutho313.ch" Margin="0,0,0,8"/>
+                    <Border Background="#FF5E5B" CornerRadius="6" Cursor="Hand"
+                            MouseLeftButtonUp="KoFi_Click" Padding="12,6">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="☕" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="Support nutho313" FontSize="11" FontWeight="SemiBold"
+                                           Foreground="White"/>
+                                <TextBlock Text="ko-fi.com/nutho313" FontSize="9"
+                                           Foreground="#FFCCCC"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </Grid>
             <Separator Background="#444"/>
 
             <!-- ══ NETWORK ══════════════════════════════════════════════════════ -->
             <TextBlock Style="{StaticResource SectionHeader}" Text="Network"/>
-            <!-- IP + Port on same row (3) -->
             <StackPanel Orientation="Horizontal" Margin="0,3">
                 <TextBlock Style="{StaticResource Lbl}" Text="IP Address"/>
                 <TextBox x:Name="TxtIp" Style="{StaticResource Val}"
@@ -116,457 +140,747 @@
 
             <!-- ══ PROFILE ══════════════════════════════════════════════════════ -->
             <TextBlock Style="{StaticResource SectionHeader}" Text="Profile"/>
-            <StackPanel Orientation="Horizontal" Margin="0,3">
-                <TextBlock Style="{StaticResource Lbl}" Text="Activate Profile"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,3">
+                <TextBlock Style="{StaticResource Lbl}" Text="Activate Profile" HorizontalAlignment="Center"/>
                 <ComboBox x:Name="CboProfile" Width="320" Background="#2A2A2A" Foreground="White"
                           DisplayMemberPath="Display" SelectionChanged="CboProfile_SelectionChanged"/>
-                <!-- Activate button now in profile section (2) -->
                 <Button Style="{StaticResource Btn}" Content="Activate Profile"
                         Tag="activate" Margin="10,0,0,0" Click="Btn_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,4,0,0">
+                <TextBlock x:Name="TxtStatusProfile" Foreground="#88BB55" FontSize="11"/>
             </StackPanel>
 
             <Separator Background="#444" Margin="0,12,0,0"/>
 
-            <!-- ══ SEAT BELT TENSIONER | BASE ═══════════════════════════════════ -->
-            <TextBlock Style="{StaticResource SectionHeader}" Text="Seat Belt Tensioner | Base"/>
+            <!-- ══ 2x2 LAYOUT GRID ═════════════════════════════════════════ -->
+            <Grid Margin="0,4,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="500"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="500"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="16"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <!-- Table 1: Gain / Sharpness / Deadzone -->
-            <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="46"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Border Grid.Row="0" Grid.ColumnSpan="5" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Gain"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Sharpness"/>
-                    <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="Deadzone"/>
-                    <TextBlock Grid.Row="0" Grid.Column="4" Style="{StaticResource TblHdr}" Text="On"/>
-                    <!-- Braking -->
-                    <Border Grid.Row="1" Grid.ColumnSpan="5" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Braking"/>
-                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="braking|gain|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding Braking_Gain, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="braking|gain|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="braking|sharpness|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding Braking_Sharpness, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="braking|sharpness|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="braking|deadzone|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding Braking_Deadzone, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="braking|deadzone|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <CheckBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Braking_Enabled, Mode=TwoWay}" Tag="braking_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
-                    <!-- Acceleration -->
-                    <Border Grid.Row="2" Grid.ColumnSpan="5" Background="#1E1E1E" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TblName}" Text="Acceleration"/>
-                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="acceleration|gain|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding Acceleration_Gain, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="acceleration|gain|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="acceleration|sharpness|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding Acceleration_Sharpness, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="acceleration|sharpness|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="acceleration|deadzone|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding Acceleration_Deadzone, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="acceleration|deadzone|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <CheckBox Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Acceleration_Enabled, Mode=TwoWay}" Tag="acceleration_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
-                    <!-- Sideways -->
-                    <Border Grid.Row="3" Grid.ColumnSpan="5" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource TblName}" Text="Sideways Accel."/>
-                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sideways|gain|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding Sideways_Gain, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sideways|gain|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sideways|sharpness|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding Sideways_Sharpness, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sideways|sharpness|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="3" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sideways|deadzone|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding Sideways_Deadzone, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sideways|deadzone|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <CheckBox Grid.Row="3" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Sideways_Enabled, Mode=TwoWay}" Tag="sideways_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
-                    <!-- Centrifugal -->
-                    <Border Grid.Row="4" Grid.ColumnSpan="5" Background="#1E1E1E"/>
-                    <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource TblName}" Text="Centrifugal Force"/>
-                    <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="centrifugal|gain|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding Centrifugal_Gain, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="centrifugal|gain|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="centrifugal|sharpness|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding Centrifugal_Sharpness, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="centrifugal|sharpness|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="4" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="centrifugal|deadzone|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding Centrifugal_Deadzone, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="centrifugal|deadzone|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <CheckBox Grid.Row="4" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Centrifugal_Enabled, Mode=TwoWay}" Tag="centrifugal_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
-                </Grid>
-            </Border>
+                <!-- TOP LEFT: Seat Belt Tensioner | Base -->
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                    <!-- ══ SEAT BELT TENSIONER | BASE ═══════════════════════════════════ -->
+                                <TextBlock Style="{StaticResource SectionHeader}" Text="Seat Belt Tensioner | Base"/>
 
-            <!-- Table 2: Gain / Sharpness -->
-            <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="46"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Border Grid.Row="0" Grid.ColumnSpan="4" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Gain"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Sharpness"/>
-                    <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="On"/>
-                    <!-- Vertical G-Force -->
-                    <Border Grid.Row="1" Grid.ColumnSpan="4" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Vertical G-Force"/>
-                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="verticalg|gain|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding VerticalG_Gain, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="verticalg|gain|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="verticalg|sharpness|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding VerticalG_Sharpness, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="verticalg|sharpness|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding VerticalG_Enabled, Mode=TwoWay}" Tag="verticalg_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
-                    <!-- Road Harshness -->
-                    <Border Grid.Row="2" Grid.ColumnSpan="4" Background="#1E1E1E"/>
-                    <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TblName}" Text="Road Harshness"/>
-                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="roadharshness|gain|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding RoadHarshness_Gain, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="roadharshness|gain|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="roadharshness|sharpness|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding RoadHarshness_Sharpness, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="roadharshness|sharpness|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <CheckBox Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding RoadHarshness_Enabled, Mode=TwoWay}" Tag="roadharshness_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
-                </Grid>
-            </Border>
+                                <!-- Table 1: Gain / Sharpness / Deadzone -->
+                                <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="160"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="46"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Border Grid.Row="0" Grid.ColumnSpan="5" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Gain"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Sharpness"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="Deadzone"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="4" Style="{StaticResource TblHdr}" Text="On"/>
+                                        <!-- Braking -->
+                                        <Border Grid.Row="1" Grid.ColumnSpan="5" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Braking"/>
+                                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="braking|gain|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding Braking_Gain, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="braking|gain|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="braking|sharpness|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding Braking_Sharpness, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="braking|sharpness|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="braking|deadzone|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding Braking_Deadzone, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="braking|deadzone|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <CheckBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Braking_Enabled, Mode=TwoWay}" Tag="braking_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                                        <!-- Acceleration -->
+                                        <Border Grid.Row="2" Grid.ColumnSpan="5" Background="#1E1E1E" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TblName}" Text="Acceleration"/>
+                                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="acceleration|gain|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding Acceleration_Gain, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="acceleration|gain|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="acceleration|sharpness|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding Acceleration_Sharpness, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="acceleration|sharpness|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="acceleration|deadzone|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding Acceleration_Deadzone, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="acceleration|deadzone|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <CheckBox Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Acceleration_Enabled, Mode=TwoWay}" Tag="acceleration_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                                        <!-- Sideways -->
+                                        <Border Grid.Row="3" Grid.ColumnSpan="5" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource TblName}" Text="Sideways Accel."/>
+                                        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sideways|gain|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding Sideways_Gain, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sideways|gain|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sideways|sharpness|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding Sideways_Sharpness, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sideways|sharpness|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="3" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sideways|deadzone|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding Sideways_Deadzone, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sideways|deadzone|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <CheckBox Grid.Row="3" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Sideways_Enabled, Mode=TwoWay}" Tag="sideways_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                                        <!-- Centrifugal -->
+                                        <Border Grid.Row="4" Grid.ColumnSpan="5" Background="#1E1E1E"/>
+                                        <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource TblName}" Text="Centrifugal Force"/>
+                                        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="centrifugal|gain|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding Centrifugal_Gain, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="centrifugal|gain|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="centrifugal|sharpness|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding Centrifugal_Sharpness, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="centrifugal|sharpness|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="4" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="centrifugal|deadzone|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding Centrifugal_Deadzone, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="centrifugal|deadzone|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <CheckBox Grid.Row="4" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Centrifugal_Enabled, Mode=TwoWay}" Tag="centrifugal_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                                    </Grid>
+                                </Border>
 
-            <!-- Table 3: Threshold / Frequency / Intensity — Side Slip -->
-            <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="46"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Border Grid.Row="0" Grid.ColumnSpan="5" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Threshold"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Frequency"/>
-                    <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="Intensity"/>
-                    <TextBlock Grid.Row="0" Grid.Column="4" Style="{StaticResource TblHdr}" Text="On"/>
-                    <Border Grid.Row="1" Grid.ColumnSpan="5" Background="#222"/>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Side Slip"/>
-                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sideslip|threshold|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding SideSlip_Threshold, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sideslip|threshold|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sideslip|frequency|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding SideSlip_Frequency, Mode=OneWay, StringFormat=N0}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sideslip|frequency|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sideslip|intensity|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding SideSlip_Intensity, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sideslip|intensity|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <CheckBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding SideSlip_Enabled, Mode=TwoWay}" Tag="sideslip_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
-                </Grid>
-            </Border>
+                                <!-- Table 2: Gain / Sharpness -->
+                                <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="160"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="46"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Border Grid.Row="0" Grid.ColumnSpan="4" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Gain"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Sharpness"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="On"/>
+                                        <!-- Vertical G-Force -->
+                                        <Border Grid.Row="1" Grid.ColumnSpan="4" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Vertical G-Force"/>
+                                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="verticalg|gain|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding VerticalG_Gain, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="verticalg|gain|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="verticalg|sharpness|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding VerticalG_Sharpness, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="verticalg|sharpness|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding VerticalG_Enabled, Mode=TwoWay}" Tag="verticalg_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                                        <!-- Road Harshness -->
+                                        <Border Grid.Row="2" Grid.ColumnSpan="4" Background="#1E1E1E"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TblName}" Text="Road Harshness"/>
+                                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="roadharshness|gain|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding RoadHarshness_Gain, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="roadharshness|gain|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="roadharshness|sharpness|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding RoadHarshness_Sharpness, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="roadharshness|sharpness|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <CheckBox Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding RoadHarshness_Enabled, Mode=TwoWay}" Tag="roadharshness_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                                    </Grid>
+                                </Border>
 
-            <!-- Table 4: Neutral / Maximum — Bounds -->
-            <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="46"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Border Grid.Row="0" Grid.ColumnSpan="4" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Neutral"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Maximum"/>
-                    <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="On"/>
-                    <Border Grid.Row="1" Grid.ColumnSpan="4" Background="#222"/>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Bounds %"/>
-                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="bounds|neutral|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding Bounds_Neutral, Mode=OneWay, StringFormat=N0}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="bounds|neutral|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="bounds|maximum|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding Bounds_Maximum, Mode=OneWay, StringFormat=N0}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="bounds|maximum|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Bounds_Enabled, Mode=TwoWay}" Tag="bounds_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
-                </Grid>
-            </Border>
+                                <!-- Table 3: Threshold / Frequency / Intensity — Side Slip -->
+                                <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="160"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="46"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Border Grid.Row="0" Grid.ColumnSpan="5" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Threshold"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Frequency"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="Intensity"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="4" Style="{StaticResource TblHdr}" Text="On"/>
+                                        <Border Grid.Row="1" Grid.ColumnSpan="5" Background="#222"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Side Slip"/>
+                                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sideslip|threshold|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding SideSlip_Threshold, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sideslip|threshold|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sideslip|frequency|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding SideSlip_Frequency, Mode=OneWay, StringFormat=N0}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sideslip|frequency|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sideslip|intensity|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding SideSlip_Intensity, Mode=OneWay, StringFormat=N2}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sideslip|intensity|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <CheckBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding SideSlip_Enabled, Mode=TwoWay}" Tag="sideslip_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                                    </Grid>
+                                </Border>
 
-            <!-- Table 5: Long. / Lateral / Duration — Pre-Impact -->
-            <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="46"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Border Grid.Row="0" Grid.ColumnSpan="5" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Long."/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Lateral"/>
-                    <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="Duration"/>
-                    <TextBlock Grid.Row="0" Grid.Column="4" Style="{StaticResource TblHdr}" Text="On"/>
-                    <Border Grid.Row="1" Grid.ColumnSpan="5" Background="#222"/>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Pre-Impact Prot."/>
-                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="preimpact|long|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding PreImpact_Long, Mode=OneWay, StringFormat=N0}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="preimpact|long|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="preimpact|lateral|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding PreImpact_Lateral, Mode=OneWay, StringFormat=N0}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="preimpact|lateral|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="preimpact|duration|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding PreImpact_Duration, Mode=OneWay, StringFormat=N0}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="preimpact|duration|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <CheckBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding PreImpact_Enabled, Mode=TwoWay}" Tag="preimpact_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
-                </Grid>
-            </Border>
+                                <!-- Table 4: Neutral / Maximum — Bounds -->
+                                <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="160"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="46"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Border Grid.Row="0" Grid.ColumnSpan="4" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Neutral"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Maximum"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="On"/>
+                                        <Border Grid.Row="1" Grid.ColumnSpan="4" Background="#222"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Bounds %"/>
+                                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="bounds|neutral|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding Bounds_Neutral, Mode=OneWay, StringFormat=N0}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="bounds|neutral|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="bounds|maximum|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding Bounds_Maximum, Mode=OneWay, StringFormat=N0}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="bounds|maximum|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Bounds_Enabled, Mode=TwoWay}" Tag="bounds_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                                    </Grid>
+                                </Border>
 
-            <TextBlock Margin="0,4,0,0" Foreground="#555" FontSize="10"
-                       Text="Values sync every 3 s from device  ·  Tune Group 12 — Seat Belt Tensioner | Base"/>
+                                <!-- Table 5: Long. / Lateral / Duration — Pre-Impact -->
+                                <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="160"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="46"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Border Grid.Row="0" Grid.ColumnSpan="5" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Long."/>
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Lateral"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="Duration"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="4" Style="{StaticResource TblHdr}" Text="On"/>
+                                        <Border Grid.Row="1" Grid.ColumnSpan="5" Background="#222"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Pre-Impact Prot."/>
+                                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="preimpact|long|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding PreImpact_Long, Mode=OneWay, StringFormat=N0}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="preimpact|long|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="preimpact|lateral|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding PreImpact_Lateral, Mode=OneWay, StringFormat=N0}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="preimpact|lateral|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="preimpact|duration|-1" Click="Nudge_Click"/>
+                                            <TextBlock Style="{StaticResource TblVal}" Text="{Binding PreImpact_Duration, Mode=OneWay, StringFormat=N0}"/>
+                                            <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="preimpact|duration|+1" Click="Nudge_Click"/>
+                                        </StackPanel>
+                                        <CheckBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding PreImpact_Enabled, Mode=TwoWay}" Tag="preimpact_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                                    </Grid>
+                                </Border>
 
-            <Separator Background="#444" Margin="0,12,0,0"/>
+                                <Separator Background="#444" Margin="0,12,0,0"/>
+                </StackPanel>
 
-            <!-- ══ MOTION PRIMARY | SFX ══════════════════════════════════════════ -->
-            <TextBlock Style="{StaticResource SectionHeader}" Text="Motion Primary | SFX"/>
-            <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="46"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Border Grid.Row="0" Grid.ColumnSpan="4" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Threshold"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Duration (s)"/>
-                    <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="On"/>
-                    <Border Grid.Row="1" Grid.ColumnSpan="4" Background="#222"/>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Violent Mvt. Suppressor"/>
-                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vms|threshold|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding VMS_Threshold, Mode=OneWay, StringFormat=N0}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vms|threshold|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
-                        <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vms|duration|-1" Click="Nudge_Click"/>
-                        <TextBlock Style="{StaticResource TblVal}" Text="{Binding VMS_Duration, Mode=OneWay, StringFormat=N2}"/>
-                        <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vms|duration|+1" Click="Nudge_Click"/>
-                    </StackPanel>
-                    <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
-                              IsChecked="{Binding VMS_Enabled, Mode=TwoWay}"
-                              Tag="vms_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
-                </Grid>
-            </Border>
-
-            <Separator Background="#444" Margin="0,12,0,0"/>
-
-            <!-- ══ VEHICLE PARAMETERS ════════════════════════════════════════════ -->
-            <TextBlock Style="{StaticResource SectionHeader}" Text="Vehicle Parameters"/>
-            <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Border Grid.Row="0" Grid.ColumnSpan="4" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Parameter"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Value 1"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Value 2"/>
-                    <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="Value 3"/>
-                    <!-- Rev Limiter -->
-                    <Border Grid.Row="1" Grid.ColumnSpan="4" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Rev Limiter"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TblVal}" Text="8.52" HorizontalAlignment="Center" Margin="0,4"/>
-                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource TblVal}" Text="200" HorizontalAlignment="Center" Margin="0,4"/>
-                    <TextBlock Grid.Row="1" Grid.Column="3" Style="{StaticResource InfoLbl}" Text="" HorizontalAlignment="Center"/>
-                    <!-- Wheel Fwd Slip -->
-                    <Border Grid.Row="2" Grid.ColumnSpan="4" Background="#1E1E1E" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TblName}" Text="Wheel Fwd Slip Threshold"/>
-                    <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource TblVal}" Text="6%" HorizontalAlignment="Center" Margin="0,4"/>
-                    <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource TblVal}" Text="30%" HorizontalAlignment="Center" Margin="0,4"/>
-                    <TextBlock Grid.Row="2" Grid.Column="3" Style="{StaticResource InfoLbl}" Text="F / R" HorizontalAlignment="Center"/>
-                    <!-- Wheel Slip Angle -->
-                    <Border Grid.Row="3" Grid.ColumnSpan="4" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource TblName}" Text="Wheel Slip Angle Threshold"/>
-                    <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource TblVal}" Text="4°" HorizontalAlignment="Center" Margin="0,4"/>
-                    <TextBlock Grid.Row="3" Grid.Column="2" Style="{StaticResource TblVal}" Text="1.5°" HorizontalAlignment="Center" Margin="0,4"/>
-                    <TextBlock Grid.Row="3" Grid.Column="3" Style="{StaticResource TblVal}" Text="1.41°" HorizontalAlignment="Center" Margin="0,4"/>
-                    <!-- Wheel Base -->
-                    <Border Grid.Row="4" Grid.ColumnSpan="4" Background="#1E1E1E" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource TblName}" Text="Wheel Base"/>
-                    <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource TblVal}" Text="2.80 m" HorizontalAlignment="Center" Margin="0,4"/>
-                    <TextBlock Grid.Row="4" Grid.Column="2" Style="{StaticResource TblVal}" Text="—" HorizontalAlignment="Center" Foreground="#444"/>
-                    <TextBlock Grid.Row="4" Grid.Column="3" Style="{StaticResource TblVal}" Text="—" HorizontalAlignment="Center" Foreground="#444"/>
-                    <!-- Turning Circle -->
-                    <Border Grid.Row="5" Grid.ColumnSpan="4" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource TblName}" Text="Turning Circle"/>
-                    <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource TblVal}" Text="11.30 m" HorizontalAlignment="Center" Margin="0,4"/>
-                    <TextBlock Grid.Row="5" Grid.Column="2" Style="{StaticResource TblVal}" Text="—" HorizontalAlignment="Center" Foreground="#444"/>
-                    <TextBlock Grid.Row="5" Grid.Column="3" Style="{StaticResource TblVal}" Text="—" HorizontalAlignment="Center" Foreground="#444"/>
-                    <!-- CoG Bias -->
-                    <Border Grid.Row="6" Grid.ColumnSpan="4" Background="#1E1E1E"/>
-                    <TextBlock Grid.Row="6" Grid.Column="0" Style="{StaticResource TblName}" Text="CoG Bias"/>
-                    <TextBlock Grid.Row="6" Grid.Column="1" Style="{StaticResource TblVal}" Text="0.50" HorizontalAlignment="Center" Margin="0,4"/>
-                    <TextBlock Grid.Row="6" Grid.Column="2" Style="{StaticResource TblVal}" Text="—" HorizontalAlignment="Center" Foreground="#444"/>
-                    <TextBlock Grid.Row="6" Grid.Column="3" Style="{StaticResource TblVal}" Text="—" HorizontalAlignment="Center" Foreground="#444"/>
-                </Grid>
-            </Border>
-            <TextBlock Foreground="#555" FontSize="10" Margin="0,0,0,4"
-                       Text="Vehicle Parameters are read-only in this version — configure via the QS-BT1 web interface."/>
-
-            <Separator Background="#444" Margin="0,12,0,0"/>
-
-            <!-- ══ SEAT BELT TENSIONER | SFX ══════════════════════════════════════ -->
-            <TextBlock Style="{StaticResource SectionHeader}" Text="Seat Belt Tensioner | SFX"/>
-            <!-- Frequency / Intensity — two-value tunes -->
-            <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="46"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Border Grid.Row="0" Grid.ColumnSpan="4" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Frequency"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Intensity"/>
-                    <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="On"/>
-                    <!-- Rev Limiter SFX -->
-                    <Border Grid.Row="1" Grid.ColumnSpan="4" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Rev Limiter"/>
-                    <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource TblVal}" Text="15" HorizontalAlignment="Center" Margin="0,4"/>
-                    <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource TblVal}" Text="1.00" HorizontalAlignment="Center" Margin="0,4"/>
-                    <CheckBox  Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="False" IsEnabled="False"/>
-                    <!-- Wheel Fwd Slip SFX -->
-                    <Border Grid.Row="2" Grid.ColumnSpan="4" Background="#1E1E1E" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TblName}" Text="Wheel Forward Slip/Lock"/>
-                    <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource TblVal}" Text="12" HorizontalAlignment="Center" Margin="0,4"/>
-                    <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource TblVal}" Text="1.00" HorizontalAlignment="Center" Margin="0,4"/>
-                    <CheckBox  Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True" IsEnabled="False"/>
-                    <!-- Wheel Slip Angle SFX -->
-                    <Border Grid.Row="3" Grid.ColumnSpan="4" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource TblName}" Text="Wheel Slip Angle"/>
-                    <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource TblVal}" Text="18" HorizontalAlignment="Center" Margin="0,4"/>
-                    <TextBlock Grid.Row="3" Grid.Column="2" Style="{StaticResource TblVal}" Text="1.00" HorizontalAlignment="Center" Margin="0,4"/>
-                    <CheckBox  Grid.Row="3" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="False" IsEnabled="False"/>
+                <!-- TOP RIGHT: Seat Belt Tensioner | SFX -->
+                <StackPanel Grid.Row="0" Grid.Column="2">
+                    <!-- ══ SEAT BELT TENSIONER | SFX (tuneGroup 17) ════════════════════ -->
+                    <TextBlock Style="{StaticResource SectionHeader}" Text="Seat Belt Tensioner | SFX"/>
+                    <!-- Freq / Intensity group -->
+                    <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="46"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Grid.ColumnSpan="4" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Frequency"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Intensity"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="On"/>
+                            <Border Grid.Row="1" Grid.ColumnSpan="4" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Rev Limiter"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_revlimiter|freq|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_RevLimiter_Freq, Mode=OneWay, StringFormat=N0}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_revlimiter|freq|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_revlimiter|intensity|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_RevLimiter_Intensity, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_revlimiter|intensity|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      IsChecked="{Binding SFX_RevLimiter_Enabled, Mode=TwoWay}"
+                                      Tag="sfx_revlimiter_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                            <Border Grid.Row="2" Grid.ColumnSpan="4" Background="#1E1E1E" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TblName}" Text="Wheel Fwd Slip/Lock"/>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_wheelfwdslip|freq|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_WheelFwdSlip_Freq, Mode=OneWay, StringFormat=N0}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_wheelfwdslip|freq|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_wheelfwdslip|intensity|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_WheelFwdSlip_Intensity, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_wheelfwdslip|intensity|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <CheckBox Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      IsChecked="{Binding SFX_WheelFwdSlip_Enabled, Mode=TwoWay}"
+                                      Tag="sfx_wheelfwdslip_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                            <Border Grid.Row="3" Grid.ColumnSpan="4" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource TblName}" Text="Wheel Slip Angle"/>
+                            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_wheelslipangle|freq|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_WheelSlipAngle_Freq, Mode=OneWay, StringFormat=N0}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_wheelslipangle|freq|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_wheelslipangle|intensity|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_WheelSlipAngle_Intensity, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_wheelslipangle|intensity|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <CheckBox Grid.Row="3" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      IsChecked="{Binding SFX_WheelSlipAngle_Enabled, Mode=TwoWay}"
+                                      Tag="sfx_wheelslipangle_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                            <Border Grid.Row="4" Grid.ColumnSpan="4" Background="#1E1E1E"/>
+                            <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource TblName}" Text="ABS Active"/>
+                            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_abs|freq|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_ABS_Freq, Mode=OneWay, StringFormat=N0}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_abs|freq|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_abs|intensity|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_ABS_Intensity, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_abs|intensity|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <CheckBox Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      IsChecked="{Binding SFX_ABS_Enabled, Mode=TwoWay}"
+                                      Tag="sfx_abs_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                        </Grid>
+                    </Border>
+                    <!-- Gear Change -->
+                    <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="46"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Grid.ColumnSpan="5" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Duration (ms)"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Downshift"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="Upshift"/>
+                            <TextBlock Grid.Row="0" Grid.Column="4" Style="{StaticResource TblHdr}" Text="On"/>
+                            <Border Grid.Row="1" Grid.ColumnSpan="5" Background="#222"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Gear Change Effect"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_gearchange|duration|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_GearChange_Duration, Mode=OneWay, StringFormat=N0}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_gearchange|duration|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_gearchange|downshift|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_GearChange_Downshift, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_gearchange|downshift|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_gearchange|upshift|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_GearChange_Upshift, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_gearchange|upshift|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <CheckBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      IsChecked="{Binding SFX_GearChange_Enabled, Mode=TwoWay}"
+                                      Tag="sfx_gearchange_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                        </Grid>
+                    </Border>
                     <!-- Rumble Strips -->
-                    <Border Grid.Row="4" Grid.ColumnSpan="4" Background="#1E1E1E" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
-                    <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource TblName}" Text="Rumble Strips Intensity"/>
-                    <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource TblVal}" Text="1.00" HorizontalAlignment="Center" Margin="0,4"/>
-                    <TextBlock Grid.Row="4" Grid.Column="2" Style="{StaticResource TblVal}" Text="1.00" HorizontalAlignment="Center" Margin="0,4"/>
-                    <CheckBox  Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="False" IsEnabled="False"/>
-                    <!-- ABS Active -->
-                    <Border Grid.Row="5" Grid.ColumnSpan="4" Background="#222"/>
-                    <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource TblName}" Text="ABS Active"/>
-                    <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource TblVal}" Text="12" HorizontalAlignment="Center" Margin="0,4"/>
-                    <TextBlock Grid.Row="5" Grid.Column="2" Style="{StaticResource TblVal}" Text="1.00" HorizontalAlignment="Center" Margin="0,4"/>
-                    <CheckBox  Grid.Row="5" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="False" IsEnabled="False"/>
-                </Grid>
-            </Border>
-            <TextBlock Foreground="#555" FontSize="10" Margin="0,0,0,4"
-                       Text="Seat Belt Tensioner | SFX values are read-only in this version — configure via the QS-BT1 web interface."/>
+                    <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="46"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Grid.ColumnSpan="4" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="At 20 km/h"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="At 300 km/h"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="On"/>
+                            <Border Grid.Row="1" Grid.ColumnSpan="4" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Rumble Strips Freq."/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_rumblestrips|freqlow|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_RumbleStrips_FreqLow, Mode=OneWay, StringFormat=N1}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_rumblestrips|freqlow|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_rumblestrips|freqhigh|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_RumbleStrips_FreqHigh, Mode=OneWay, StringFormat=N1}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_rumblestrips|freqhigh|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <TextBlock Grid.Row="1" Grid.Column="3"/>
+                            <Border Grid.Row="2" Grid.ColumnSpan="4" Background="#1E1E1E"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TblName}" Text="Rumble Strips Intensity"/>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_rumblestrips|intlow|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_RumbleStrips_IntLow, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_rumblestrips|intlow|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_rumblestrips|inthigh|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_RumbleStrips_IntHigh, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_rumblestrips|inthigh|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <CheckBox Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      IsChecked="{Binding SFX_RumbleStrips_Enabled, Mode=TwoWay}"
+                                      Tag="sfx_rumblestrips_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                        </Grid>
+                    </Border>
+                    <!-- Engine Vibration Extra -->
+                    <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Grid.ColumnSpan="4" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Phase Shift"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Alone"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="In-Group"/>
+                            <Border Grid.Row="1" Grid.ColumnSpan="4" Background="#222"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Eng. Vibration Extra"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_engvib_extra|phase|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_EngVib_Extra_Phase, Mode=OneWay, StringFormat=N0}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_engvib_extra|phase|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_engvib_extra|alone|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_EngVib_Extra_Alone, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_engvib_extra|alone|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_engvib_extra|ingroup|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_EngVib_Extra_InGroup, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_engvib_extra|ingroup|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <!-- LFE Enhancement -->
+                    <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="46"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Grid.ColumnSpan="4" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Gain"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Sharpness"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="On"/>
+                            <Border Grid.Row="1" Grid.ColumnSpan="4" Background="#222"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="LFE Enhancement"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_lfe|val0|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_LFE_Val0, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_lfe|val0|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="sfx_lfe|val1|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding SFX_LFE_Val1, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="sfx_lfe|val1|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      IsChecked="{Binding SFX_LFE_Enabled, Mode=TwoWay}"
+                                      Tag="sfx_lfe_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- BOTTOM LEFT: Motion Primary | SFX -->
+                <StackPanel Grid.Row="2" Grid.Column="0">
+                    <!-- ══ MOTION PRIMARY | SFX ════════════════════════════════════════ -->
+                    <TextBlock Style="{StaticResource SectionHeader}" Text="Motion Primary | SFX"/>
+                    <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="46"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Grid.ColumnSpan="4" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Threshold (m/s²)"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Duration (s)"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="On"/>
+                            <Border Grid.Row="1" Grid.ColumnSpan="4" Background="#222"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Violent Mvt. Suppressor"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vms|threshold|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding VMS_Threshold, Mode=OneWay, StringFormat=N0}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vms|threshold|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vms|duration|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding VMS_Duration, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vms|duration|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      IsChecked="{Binding VMS_Enabled, Mode=TwoWay}"
+                                      Tag="vms_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <!-- BOTTOM RIGHT: Vehicle Parameters -->
+                <StackPanel Grid.Row="2" Grid.Column="2">
+                    <!-- ══ VEHICLE PARAMETERS (tuneGroup 13) ═════════════════════════ -->
+                    <TextBlock Style="{StaticResource SectionHeader}" Text="Vehicle Parameters"/>
+                    <!-- Rev Limiter + Wheel Fwd Slip -->
+                    <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="46"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Grid.ColumnSpan="4" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Param 1"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Param 2"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="On"/>
+                            <Border Grid.Row="1" Grid.ColumnSpan="4" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
+                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center" Margin="10,4,4,4">
+                                <TextBlock Style="{StaticResource TblName}" Text="Rev Limiter" Padding="0"/>
+                                <TextBlock Foreground="#555" FontSize="9" Text="Max Gear  ·  Offset"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vp_revlimiter|maxgear|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding VP_RevLimiter_MaxGear, Mode=OneWay, StringFormat=N1}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vp_revlimiter|maxgear|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vp_revlimiter|offset|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding VP_RevLimiter_Offset, Mode=OneWay, StringFormat=N0}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vp_revlimiter|offset|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      IsChecked="{Binding VP_RevLimiter_Enabled, Mode=TwoWay}"
+                                      Tag="vp_revlimiter_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                            <Border Grid.Row="2" Grid.ColumnSpan="4" Background="#1E1E1E"/>
+                            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center" Margin="10,4,4,4">
+                                <TextBlock Style="{StaticResource TblName}" Text="Wheel Fwd Slip" Padding="0"/>
+                                <TextBlock Foreground="#555" FontSize="9" Text="Front %  ·  Rear %"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vp_wheelfwdslip|front|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding VP_WheelFwdSlip_Front, Mode=OneWay, StringFormat=N0}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vp_wheelfwdslip|front|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vp_wheelfwdslip|rear|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding VP_WheelFwdSlip_Rear, Mode=OneWay, StringFormat=N0}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vp_wheelfwdslip|rear|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <CheckBox Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      IsChecked="{Binding VP_WheelFwdSlip_Enabled, Mode=TwoWay}"
+                                      Tag="vp_wheelfwdslip_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                        </Grid>
+                    </Border>
+                    <!-- Wheel Slip Angle -->
+                    <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="46"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Grid.ColumnSpan="5" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Tune"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Front (°)"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text="Rear (°)"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource TblHdr}" Text="Escalation"/>
+                            <TextBlock Grid.Row="0" Grid.Column="4" Style="{StaticResource TblHdr}" Text="On"/>
+                            <Border Grid.Row="1" Grid.ColumnSpan="5" Background="#222"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Wheel Slip Angle"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vp_slipangle|front|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding VP_SlipAngle_Front, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vp_slipangle|front|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vp_slipangle|rear|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding VP_SlipAngle_Rear, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vp_slipangle|rear|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vp_slipangle|escalation|-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding VP_SlipAngle_Escalation, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vp_slipangle|escalation|+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <CheckBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      IsChecked="{Binding VP_SlipAngle_Enabled, Mode=TwoWay}"
+                                      Tag="vp_slipangle_enabled" Checked="ChkEnabled_Changed" Unchecked="ChkEnabled_Changed"/>
+                        </Grid>
+                    </Border>
+                    <!-- WheelBase / TurningCircle / CoGBias -->
+                    <Border Background="#1A1A1A" BorderBrush="#3A3A3A" BorderThickness="1" CornerRadius="4" Margin="0,2,0,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="46"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Grid.ColumnSpan="3" Background="#1E1A10" BorderBrush="#5A3E00" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource TblHdr}" TextAlignment="Left" Padding="10,5" Text="Parameter"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource TblHdr}" Text="Value"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource TblHdr}" Text=""/>
+                            <Border Grid.Row="1" Grid.ColumnSpan="3" Background="#222" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource TblName}" Text="Wheel Base (m)"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vp_wheelbase||-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding VP_WheelBase, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vp_wheelbase||+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <Border Grid.Row="2" Grid.ColumnSpan="3" Background="#1E1E1E" BorderBrush="#2E2E2E" BorderThickness="0,0,0,1"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource TblName}" Text="Turning Circle (m)"/>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vp_turningcircle||-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding VP_TurningCircle, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vp_turningcircle||+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                            <Border Grid.Row="3" Grid.ColumnSpan="3" Background="#222"/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource TblName}" Text="CoG Bias (0=front · 1=rear)"/>
+                            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,4">
+                                <Button Style="{StaticResource NudgeBtn}" Content="&lt;" Tag="vp_cogbias||-1" Click="Nudge_Click"/>
+                                <TextBlock Style="{StaticResource TblVal}" Text="{Binding VP_CoGBias, Mode=OneWay, StringFormat=N2}"/>
+                                <Button Style="{StaticResource NudgeBtn}" Content="&gt;" Tag="vp_cogbias||+1" Click="Nudge_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+            </Grid>
 
             <Separator Background="#444" Margin="0,12,0,0"/>
             <TextBlock Margin="0,10,0,16" Foreground="#888" FontSize="10" TextWrapping="Wrap"
