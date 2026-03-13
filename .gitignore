@@ -1,0 +1,27 @@
+# Build outputs
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Compiled binaries (not in source — attached to GitHub Releases instead)
+*.dll
+*.pdb
+*.exe
+
+# Release zips (attached to GitHub Releases directly)
+releases/
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Rider / JetBrains
+.idea/
+*.DotSettings.user

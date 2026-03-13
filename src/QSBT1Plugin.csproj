@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>User.QSBT1Plugin</AssemblyName>
+    <RootNamespace>QSBT1Plugin</RootNamespace>
+    <UseWPF>true</UseWPF>
+    <Nullable>disable</Nullable>
+    <LangVersion>8.0</LangVersion>
+    <!-- Default SimHub path — override via environment variable SIMHUB_PATH -->
+    <SimHubPath Condition="'$(SIMHUB_PATH)' != ''">$(SIMHUB_PATH)</SimHubPath>
+    <SimHubPath Condition="'$(SIMHUB_PATH)' == ''">$(USERPROFILE)\Documents\SimHub</SimHubPath>
+  </PropertyGroup>
+
+  <!-- SimHub SDK References -->
+  <ItemGroup>
+    <Reference Include="SimHub.Plugins">
+      <HintPath>$(SimHubPath)\SimHub.Plugins.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="GameReaderCommon">
+      <HintPath>$(SimHubPath)\GameReaderCommon.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SimHub.Logging">
+      <HintPath>$(SimHubPath)\SimHub.Logging.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>$(SimHubPath)\log4net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(SimHubPath)\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="System.Net.Http"/>
+  </ItemGroup>
+
+  <!-- Embedded resources -->
+  <ItemGroup>
+    <EmbeddedResource Include="nutho313logoblackcircle.png"/>
+  </ItemGroup>
+
+  <!-- Post-build: auto-copy DLL to SimHub Plugins folder -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Message Text="Copying $(TargetFileName) to SimHub Plugins..." Importance="high"/>
+    <Copy
+      SourceFiles="$(TargetPath)"
+      DestinationFolder="$(SimHubPath)\Plugins\"
+      OverwriteReadOnlyFiles="true"
+      SkipUnchangedFiles="false"/>
+    <Message Text="Done — $(SimHubPath)\Plugins\$(TargetFileName)" Importance="high"/>
+  </Target>
+
+</Project>
