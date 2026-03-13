@@ -75,6 +75,18 @@ namespace QSBT1Plugin
             catch { }
         }
 
+        private void Website_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            try { Process.Start(new ProcessStartInfo("https://www.nutho313.ch") { UseShellExecute = true }); }
+            catch { }
+        }
+
+        private void KoFi_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            try { Process.Start(new ProcessStartInfo("https://ko-fi.com/nutho313") { UseShellExecute = true }); }
+            catch { }
+        }
+
         // ── Enabled checkbox ─────────────────────────────────────────────────
         private void ChkEnabled_Changed(object sender, RoutedEventArgs e)
         {
@@ -93,7 +105,24 @@ namespace QSBT1Plugin
                 case "verticalg_enabled":     _plugin.Settings.VerticalG_Enabled     = en; _plugin.SendTuneEnabled("Vertical G-Force",       pid, tg, en); break;
                 case "sideslip_enabled":      _plugin.Settings.SideSlip_Enabled      = en; _plugin.SendTuneEnabled("Side Slip",              pid, tg, en); break;
                 case "roadharshness_enabled": _plugin.Settings.RoadHarshness_Enabled = en; _plugin.SendTuneEnabled("Road Harshness",         pid, tg, en); break;
-                case "preimpact_enabled":     _plugin.Settings.PreImpact_Enabled     = en; _plugin.SendTuneEnabled("Pre-Impact Protection",  pid, tg, en); break;
+                case "preimpact_enabled":          _plugin.Settings.PreImpact_Enabled          = en; _plugin.SendTuneEnabled("Pre-Impact Protection",              pid, tg, en); break;
+                case "vms_enabled":
+                    _plugin.Settings.VMS_Enabled = en;
+                    _plugin.SendTuneEnabled("Violent Movement Threshold",        pid, 2,  en);
+                    _plugin.SendTuneEnabled("Violent Movement Suppression Time", pid, 2,  en); break;
+                case "vp_revlimiter_enabled":      _plugin.Settings.VP_RevLimiter_Enabled      = en; _plugin.SendTuneEnabled("Rev Limiter",                          pid, 13, en); break;
+                case "vp_wheelfwdslip_enabled":    _plugin.Settings.VP_WheelFwdSlip_Enabled    = en; _plugin.SendTuneEnabled("Wheel Forward Slip/Lock Threshold",    pid, 13, en); break;
+                case "vp_slipangle_enabled":       _plugin.Settings.VP_SlipAngle_Enabled       = en; _plugin.SendTuneEnabled("Wheel Slip Angle Threshold",           pid, 13, en); break;
+                case "sfx_revlimiter_enabled":     _plugin.Settings.SFX_RevLimiter_Enabled     = en; _plugin.SendTuneEnabled("Rev Limiter",                          pid, 17, en); break;
+                case "sfx_gearchange_enabled":     _plugin.Settings.SFX_GearChange_Enabled     = en; _plugin.SendTuneEnabled("Gear Change Effect",                   pid, 17, en); break;
+                case "sfx_wheelfwdslip_enabled":   _plugin.Settings.SFX_WheelFwdSlip_Enabled   = en; _plugin.SendTuneEnabled("Wheel Forward Slip/Lock",              pid, 17, en); break;
+                case "sfx_wheelslipangle_enabled": _plugin.Settings.SFX_WheelSlipAngle_Enabled = en; _plugin.SendTuneEnabled("Wheel Slip Angle",                     pid, 17, en); break;
+                case "sfx_rumblestrips_enabled":
+                    _plugin.Settings.SFX_RumbleStrips_Enabled = en;
+                    _plugin.SendTuneEnabled("Rumble Strips Frequency", pid, 17, en);
+                    _plugin.SendTuneEnabled("Rumble Strips Intensity",  pid, 17, en); break;
+                case "sfx_abs_enabled":            _plugin.Settings.SFX_ABS_Enabled            = en; _plugin.SendTuneEnabled("ABS Active",                           pid, 17, en); break;
+                case "sfx_lfe_enabled":            _plugin.Settings.SFX_LFE_Enabled            = en; _plugin.SendTuneEnabled("LFE Enhancement",                      pid, 17, en); break;
             }
         }
 
@@ -215,6 +244,8 @@ namespace QSBT1Plugin
                         : "✔ " + profiles.Count + " profiles";
                     TxtStatus.Text       = note;
                     TxtStatus.Foreground = System.Windows.Media.Brushes.LightGreen;
+                    TxtStatusProfile.Text = note;
+                    TxtStatusProfile.Foreground = System.Windows.Media.Brushes.LightGreen;
                     UpdateWebLink();
                 });
             }
@@ -291,6 +322,8 @@ namespace QSBT1Plugin
                 {
                     TxtStatus.Text       = "✔ Activated — " + p.Name + "  (ID " + p.Id + ")";
                     TxtStatus.Foreground = System.Windows.Media.Brushes.LightGreen;
+                    TxtStatusProfile.Text = "✔ Activated — " + p.Name + "  (ID " + p.Id + ")";
+                    TxtStatusProfile.Foreground = System.Windows.Media.Brushes.LightGreen;
                     // Refresh dropdown to reflect new active state, then re-read tune values
                     await LoadProfilesAsync();
                 }
